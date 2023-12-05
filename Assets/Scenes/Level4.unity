@@ -482,7 +482,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.88204, y: -2.299985, z: -10.2}
+  m_LocalPosition: {x: -3.6015215, y: -2.299985, z: -10.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -715,22 +715,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 728978566125726289, guid: e8193a08a58c0172a96ab5574c79b79f, type: 3}
-      propertyPath: m_text
-      value: Level 2-1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3914093701451246447, guid: e8193a08a58c0172a96ab5574c79b79f, type: 3}
-      propertyPath: m_text
-      value: Level 2-1
-      objectReference: {fileID: 0}
     - target: {fileID: 5127451198781308175, guid: e8193a08a58c0172a96ab5574c79b79f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 7325525714542799312}
-    - target: {fileID: 5858726895939057334, guid: e8193a08a58c0172a96ab5574c79b79f, type: 3}
-      propertyPath: m_text
-      value: Level 2-1
-      objectReference: {fileID: 0}
     - target: {fileID: 7630687744527246384, guid: e8193a08a58c0172a96ab5574c79b79f, type: 3}
       propertyPath: m_Name
       value: Canvas
