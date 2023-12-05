@@ -11,7 +11,7 @@ public class HUDTimer : MonoBehaviour {
         gameObject.GetComponent<TMP_Text>().text = "00:00.00";
     }
 
-    public void Update() {
+    public void FixedUpdate() {
         gameObject.GetComponent<TMP_Text>().text = (DateTime.Now-startTime).ToString("hh\\:mm\\:ss\\.ff");
     }
 }

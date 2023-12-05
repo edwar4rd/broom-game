@@ -7,8 +7,13 @@ public class InstructionUIManager : MonoBehaviour {
     public GameObject InstructionUI;
     // Start is called before the first frame update
     void Start() {
-        if (UIStats.playerSeenInstruction)
+        if (UIStats.playerSeenInstruction) {
             InstructionUI.SetActive(false);
+            Time.timeScale = 1f;
+        }
+        else {
+            Time.timeScale = 0f;
+        }
     }
 
     // Update is called once per frame
@@ -20,6 +25,7 @@ public class InstructionUIManager : MonoBehaviour {
     public void CloseInstructionUI() {
         UIStats.playerSeenInstruction = true;
         InstructionUI.SetActive(false);
+        Time.timeScale = 1f;
     }
 
 }

@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour {
 		broomRigidBody.simulated = true;
 		failed = false;
 		restartEnabled = false;
-		Time.timeScale = 1;
+		// Time.timeScale = 1;
 
 		while (SceneManager.GetActiveScene().buildIndex >= GameStats.startTimeStamps.Count) {
 			GameStats.startTimeStamps.Add(Time.time);
