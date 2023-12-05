@@ -147,7 +147,7 @@ public class PlayerManager : MonoBehaviour {
 
 	private void checkRestart() {
 		if (restartEnabled) {
-			if (Input.GetKey("r") || Input.GetKey("`")) {
+			if (Input.GetKeyDown("r") || Input.GetKeyDown("`")) {
 				restartEnabled = false;
 				restartScene();
 			}
