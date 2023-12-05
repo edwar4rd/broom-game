@@ -21,14 +21,14 @@ public class timeControl : MonoBehaviour
             isSlowed = true;
 
             // 在1秒钟后恢复正常游戏速度
-            Invoke("ResetTimeScale", 1.0f);
+            Invoke(nameof(ResetTimeScale), 1.0f);
         }
     }
 
     void ResetTimeScale()
     {
         // 恢复正常游戏速度
-        Time.timeScale = 1.0f;
+        Time.timeScale = originalTimeScale;
         isSlowed = false;
     }
 }

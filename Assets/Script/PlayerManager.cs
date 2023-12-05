@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviour {
 
 	private bool touchingWater = false;
 	private float enterWaterVelocity = 0f;
-	private uint enterWaterFrameCount = 0;
+	// private uint enterWaterFrameCount = 0;
 
 	private bool restartEnabled = false;
 
@@ -275,7 +275,7 @@ public class PlayerManager : MonoBehaviour {
 		if (!touchingWater) {
 			touchingWater = true;
 			enterWaterVelocity = velocity;
-			enterWaterFrameCount = 0;
+			// enterWaterFrameCount = 0;
 		}
 		this.GetComponent<SpriteRenderer>().sprite = waterZoneShoeSprite;
 	}
