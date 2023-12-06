@@ -1958,6 +1958,10 @@ PrefabInstance:
       propertyPath: pausePanel
       value: 
       objectReference: {fileID: 7630687745705275018}
+    - target: {fileID: 7489557320782669277, guid: 19851478952ba6a9386611899ddd0370, type: 3}
+      propertyPath: isFinalLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8915844561911361886, guid: 19851478952ba6a9386611899ddd0370, type: 3}
       propertyPath: m_ConnectedAnchor.y
       value: 0.03787303
