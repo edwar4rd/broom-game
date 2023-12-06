@@ -17,9 +17,6 @@ public enum WaterZonePhysicsVer {
 public class PlayerManager : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	public Rigidbody2D broomRigidBody;
-	public GameObject fallingLeftParticleSystem;
-	public GameObject fallingRightParticleSystem;
-	public GameObject particleSystem2ForChar;
 	public GameObject pausePanel;
 
 
@@ -51,6 +48,15 @@ public class PlayerManager : MonoBehaviour {
 	private float enterWaterVelocity = 0f;
 	// private uint enterWaterFrameCount = 0;
 
+	[Header("效果設定")]
+	public GameObject fallingLeftParticleSystem;
+	public GameObject fallingRightParticleSystem;
+	public GameObject particleSystem2ForChar;
+	public GameObject clockwiseRotateIndicator;
+	public GameObject counterCWRotateIndicator;
+
+
+
 	private bool restartEnabled = false;
 
 	void Start() {
@@ -73,11 +79,12 @@ public class PlayerManager : MonoBehaviour {
 		checkRestart();
 		Jump();
 		righting();
+		particles();
+		indicators();
 	}
 	void FixedUpdate() {
 		Movement();
 		checkDeath();
-		particles();
 	}
 
 	private void Movement() {
@@ -142,6 +149,22 @@ public class PlayerManager : MonoBehaviour {
 		else {
 			fallingRightParticleSystem.SetActive(false);
 			fallingLeftParticleSystem.SetActive(false);
+		}
+	}
+
+	private void indicators() {
+		// Debug.Log(broomRigidBody.angularVelocity);
+		if (broomRigidBody.angularVelocity > 30f) {
+			clockwiseRotateIndicator.SetActive(true);
+			counterCWRotateIndicator.SetActive(false);
+		}
+		else if (broomRigidBody.angularVelocity < -30f) {
+			clockwiseRotateIndicator.SetActive(false);
+			counterCWRotateIndicator.SetActive(true);
+		}
+		else {
+			clockwiseRotateIndicator.SetActive(false);
+			counterCWRotateIndicator.SetActive(false);
 		}
 	}
 
