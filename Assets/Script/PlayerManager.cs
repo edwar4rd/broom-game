@@ -17,6 +17,7 @@ public enum WaterZonePhysicsVer {
 public class PlayerManager : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	public Rigidbody2D broomRigidBody;
+	public HingeJoint2D broomHingeJoint;
 	public GameObject pausePanel;
 
 
@@ -57,7 +58,8 @@ public class PlayerManager : MonoBehaviour {
 
 	public bool isFinalLevel = false;
 
-
+	private float lastNotBrokenTime = 0f;
+	private bool broken = false;
 	private bool restartEnabled = false;
 
 	void Start() {
@@ -233,8 +235,30 @@ public class PlayerManager : MonoBehaviour {
 
 	private void checkDeath() {
 		footPointCheck();
-		if (touchGround && Mathf.Abs(broomRigidBody.rotation) > 90f)
+		if (touchGround && Mathf.Abs(broomRigidBody.rotation) > 89f)
 			failAndStop();
+		if (!broken) {
+			if ((broomRigidBody.position - rb2d.position).magnitude > 0.2) {
+				if ((broomRigidBody.position - rb2d.position).magnitude > 1) {
+					broomHingeJoint.enabled = false;
+					broken = true;
+					Invoke(nameof(failAndStop), 0.8f);
+				}
+				else if (Time.time - lastNotBrokenTime > 0.5) {
+					broomHingeJoint.enabled = false;
+					broken = true;
+					Invoke(nameof(failAndStop), 0.5f);
+				}
+			}
+			else {
+				lastNotBrokenTime = Time.time;
+			}
+		}
+		// Debug.Log(broomRigidBody.position - rb2d.position);
+		// float newDistance = (broomRigidBody.position - rb2d.position).magnitude;
+		// maxDistance = Math.Max(newDistance, maxDistance);
+		// Debug.Log(String.Format("{0:00.0000} {1:00.0000} {2}", (broomRigidBody.position - rb2d.position).magnitude, maxDistance, maxDistance>0.5));
+
 	}
 
 	private IEnumerator canJump_dead() {
