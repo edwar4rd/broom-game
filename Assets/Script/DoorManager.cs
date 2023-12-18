@@ -72,7 +72,8 @@ public class DoorManager : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 		isWin = true;
-		winningSign.SetActive(true);
+		if (winningSign != null)
+			winningSign.SetActive(true);
 
 		Time.timeScale = 0;
 	}

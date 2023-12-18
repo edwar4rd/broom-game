@@ -257,6 +257,7 @@ MonoBehaviour:
   DeathUI: {fileID: 392776147999952798}
   RestartButtonText: {fileID: 1818601595868932596}
   player: {fileID: 0}
+  actions: {fileID: -944628639613478452, guid: 94262e2f2b11de94d8eb62fe7a95c0e6, type: 3}
 --- !u!1 &2370193859199245476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab7066cbe34e694ba6504a17f225b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 94262e2f2b11de94d8eb62fe7a95c0e6, type: 3}
   InstructionUI: {fileID: 7630687744672422162}
 --- !u!1 &7630687745024818309
 GameObject:

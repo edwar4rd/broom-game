@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using PlayerStats;
-using System.Linq;
-using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public enum WaterZonePhysicsVer {
 	Constant,
@@ -19,6 +17,8 @@ public class PlayerManager : MonoBehaviour {
 	public Rigidbody2D broomRigidBody;
 	public HingeJoint2D broomHingeJoint;
 	public GameObject pausePanel;
+	public InputActionAsset actions;
+	private InputActionMap levelInputs;
 
 
 	public Vector2 startingPos;
@@ -62,6 +62,13 @@ public class PlayerManager : MonoBehaviour {
 	private bool broken = false;
 	private bool restartEnabled = false;
 
+	// Input Related
+	private float horizontalAxisInput;
+	private float rotationalAxisInput;
+	private bool autorotateButton;
+	private bool invincibilityButton;
+	private bool jumpButton;
+
 	void Start() {
 		rb2d = GetComponent<Rigidbody2D>();
 		broomRigidBody.simulated = true;
@@ -75,13 +82,21 @@ public class PlayerManager : MonoBehaviour {
 		while (SceneManager.GetActiveScene().buildIndex >= GameStats.restartTimeStamps.Count) {
 			GameStats.restartTimeStamps.Add(0);
 		}
+
+
+		levelInputs = actions.FindActionMap("LevelInput");
+		levelInputs["SlowTime"].started += OnSlowTimeRequest;
+		levelInputs["RequestRestart"].started += OnRestartRequest;
+		levelInputs.Enable();
+
 		GameStats.restartTimeStamps[SceneManager.GetActiveScene().buildIndex] = Time.time;
 	}
 
 	void Update() {
+		UpdateInput();
 		checkRestart();
 		Jump();
-		righting();
+		UpdateInputRotation();
 		particles();
 		indicators();
 	}
@@ -90,27 +105,46 @@ public class PlayerManager : MonoBehaviour {
 		checkDeath();
 	}
 
+	private void UpdateInput() {
+		const float moveGravity = 3f;
+		const float moveSensitivity = 3f;
+
+		float rawMoveAxis = levelInputs["Move"].ReadValue<float>();
+		if (rawMoveAxis == 0) {
+			horizontalAxisInput = Mathf.MoveTowards(horizontalAxisInput, 0, Time.deltaTime * moveGravity);
+		}
+		else {
+			if (horizontalAxisInput != 0 && Math.Sign(horizontalAxisInput) != Math.Sign(rawMoveAxis))
+				horizontalAxisInput = 0;
+			else {
+				horizontalAxisInput = Mathf.MoveTowards(horizontalAxisInput, rawMoveAxis, Time.deltaTime * moveSensitivity);
+			}
+		}
+		rotationalAxisInput = levelInputs["ManualRotate"].ReadValue<float>();
+		autorotateButton = levelInputs["AutoRotate"].IsPressed();
+		invincibilityButton = levelInputs["Invincible"].IsPressed();
+		jumpButton = levelInputs["RequestJump"].WasPressedThisFrame();
+	}
+
 	private void Movement() {
-
-
 		if (failed)
 			return;
 
 		velocity = rb2d.velocity.x;
 		if (!touchingWater) {
 			if (touchGround) {
-				if ((Math.Sign(velocity) == Math.Sign(Input.GetAxis("Horizontal"))) || (Input.GetAxis("Horizontal") == 0)) {
-					velocity = Math.Sign(velocity) * Math.Max(Math.Abs(velocity) * 0.87f, Math.Abs(moveSpeed * Input.GetAxis("Horizontal") * 0.85f));
+				if ((Math.Sign(velocity) == Math.Sign(horizontalAxisInput)) || (horizontalAxisInput == 0)) {
+					velocity = Math.Sign(velocity) * Math.Max(Math.Abs(velocity) * 0.87f, Math.Abs(moveSpeed * horizontalAxisInput * 0.85f));
 				}
 				else
-					velocity = moveSpeed * Input.GetAxis("Horizontal");
+					velocity = moveSpeed * horizontalAxisInput;
 			}
 			else {
-				if ((Math.Sign(velocity) == Math.Sign(Input.GetAxis("Horizontal"))) || (Input.GetAxis("Horizontal") == 0)) {
-					velocity = Math.Sign(velocity) * Math.Max(Math.Abs(velocity), Math.Abs(moveSpeed * Input.GetAxis("Horizontal") * 0.85f));
+				if ((Math.Sign(velocity) == Math.Sign(horizontalAxisInput)) || (horizontalAxisInput == 0)) {
+					velocity = Math.Sign(velocity) * Math.Max(Math.Abs(velocity), Math.Abs(moveSpeed * horizontalAxisInput * 0.85f));
 				}
 				else
-					velocity = moveSpeed * Input.GetAxis("Horizontal") * 0.85f;
+					velocity = moveSpeed * horizontalAxisInput * 0.85f;
 			}
 		}
 		else {
@@ -133,8 +167,8 @@ public class PlayerManager : MonoBehaviour {
 
 		rb2d.velocity = new Vector2(velocity, rb2d.velocity.y);
 
-		if (Input.GetAxis("Horizontal") != 0f) {
-			if (!(facingRight ^ (Input.GetAxis("Horizontal") < 0f))) {
+		if (horizontalAxisInput != 0f) {
+			if (!(facingRight ^ (horizontalAxisInput < 0f))) {
 				Flip();
 			}
 		}
@@ -172,29 +206,25 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	private void checkRestart() {
-		if (restartEnabled) {
-			if (Input.GetKeyDown("r") || Input.GetKeyDown("`")) {
-				restartEnabled = false;
-				restartScene();
-			}
+		if (Time.timeSinceLevelLoad > 0.2) {
+			restartEnabled = true;
 		}
-		else {
-			if (Time.timeSinceLevelLoad > 0.2) {
-				restartEnabled = true;
-			}
+	}
+
+	private void OnRestartRequest(InputAction.CallbackContext context) {
+		if (this == null)
+			return;
+		if (restartEnabled) {
+			restartEnabled = false;
+			restartScene();
 		}
 	}
 
 	//讓傾斜的掃帚回正
-	private void righting() {
-		if (Input.GetKey("d")) {
-			broomRigidBody.AddTorque(torquePower);
-		}
-		if (Input.GetKey("f")) {
-			broomRigidBody.AddTorque(-1 * torquePower);
-		}
+	private void UpdateInputRotation() {
+		broomRigidBody.AddTorque(-rotationalAxisInput * torquePower);
 
-		if (Input.GetKey("g")) {
+		if (autorotateButton) {
 			if (broomRigidBody.rotation < 0f) {
 				broomRigidBody.AddTorque(torquePower);
 			}
@@ -202,7 +232,6 @@ public class PlayerManager : MonoBehaviour {
 				broomRigidBody.AddTorque(-1 * torquePower);
 			}
 		}
-
 	}
 
 	private void Flip() {
@@ -271,7 +300,7 @@ public class PlayerManager : MonoBehaviour {
 		if (failed)
 			return;
 
-		if (Input.GetButtonDown("Jump") && canJump && touchGround) {
+		if (jumpButton && canJump && touchGround) {
 			canJump = false;
 			if (alternativeJumpTest) {
 				float jumpAngle = broomRigidBody.rotation / 180f * Mathf.PI + Mathf.PI / 2;
@@ -286,7 +315,7 @@ public class PlayerManager : MonoBehaviour {
 	public void failAndStop() {
 		Debug.Log("Player fail detected!");
 		// TEST KEY: s = super, grants invincibility
-		if (Input.GetKey("s"))
+		if (invincibilityButton)
 			return;
 		GameStats.totalFail++;
 		while (SceneManager.GetActiveScene().buildIndex >= GameStats.levelFail.Count) {
@@ -336,5 +365,32 @@ public class PlayerManager : MonoBehaviour {
 		// Debug.Log("yeah super dry");
 		touchingWater = false;
 		this.GetComponent<SpriteRenderer>().sprite = normalShoeSprite;
+	}
+
+	private bool isSlowed = false;
+	private float slowTimeOriginalTime = 1;
+	public void OnSlowTimeRequest(InputAction.CallbackContext context) {
+		if (this == null)
+			return;
+		if (isSlowed)
+			return;
+		if (Time.timeScale == 0)
+			return;
+		isSlowed = true;
+		slowTimeOriginalTime = Time.timeScale;
+		Time.timeScale /= 2;
+		Invoke(nameof(slowTimeReturnToNormal), 1f);
+	}
+
+	public void slowTimeReturnToNormal() {
+		if (!isSlowed)
+			return;
+		// TimeScale is changed by somethingelse -> leave it as is...
+		Debug.Log("Returning To Normal Time...");
+		if (Math.Abs(Time.timeScale - (slowTimeOriginalTime / 2)) > 0.0001)
+			return;
+		Debug.Log("Resetting Time...");
+		Time.timeScale = slowTimeOriginalTime;
+		isSlowed = false;
 	}
 }

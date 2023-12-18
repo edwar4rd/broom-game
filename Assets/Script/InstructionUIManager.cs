@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerStats;
+using UnityEngine.InputSystem;
 
 public class InstructionUIManager : MonoBehaviour {
+    public InputActionAsset actions;
     public GameObject InstructionUI;
     // Start is called before the first frame update
     void Start() {
@@ -13,19 +15,24 @@ public class InstructionUIManager : MonoBehaviour {
         }
         else {
             Time.timeScale = 0f;
+            actions.FindActionMap("LevelInput")["CloseInstructionUI"].started += CloseInstructionUI;
+            actions.FindActionMap("LevelInput")["CloseInstructionUI"].Enable();
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return))
-            CloseInstructionUI();
-    }
-
     public void CloseInstructionUI() {
-        UIStats.playerSeenInstruction = true;
-        InstructionUI.SetActive(false);
-        Time.timeScale = 1f;
+        if (enabled) {
+            actions.FindActionMap("LevelInput")["CloseInstructionUI"].started -= CloseInstructionUI;
+            actions.FindActionMap("LevelInput")["CloseInstructionUI"].Disable();
+            UIStats.playerSeenInstruction = true;
+            InstructionUI.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
+    public void CloseInstructionUI(InputAction.CallbackContext context) {
+        if (this == null)
+            return;
 
+        CloseInstructionUI();
+    }
 }

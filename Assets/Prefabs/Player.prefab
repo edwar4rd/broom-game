@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7489557320782669277}
   - component: {fileID: 2960129012067039952}
   - component: {fileID: 5225673141464057161}
-  - component: {fileID: 534169115590944689}
   m_Layer: 0
   m_Name: Shoe
   m_TagString: Player
@@ -106,6 +105,7 @@ MonoBehaviour:
   broomRigidBody: {fileID: 663599308601958787}
   broomHingeJoint: {fileID: 4296517719358948361}
   pausePanel: {fileID: 0}
+  actions: {fileID: -944628639613478452, guid: 94262e2f2b11de94d8eb62fe7a95c0e6, type: 3}
   startingPos: {x: -6.14, y: -4.43}
   moveSpeed: 8
   torquePower: 6
@@ -172,18 +172,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7986493, y: 0.056321144}
   m_EdgeRadius: 0
---- !u!114 &534169115590944689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 15273855012725336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5533f54c8698347bc02e16d0c38212, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &518045911460729295
 GameObject:
   m_ObjectHideFlags: 0

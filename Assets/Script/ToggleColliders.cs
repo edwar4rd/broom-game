@@ -8,12 +8,12 @@ public class ToggleColliders : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            showColliders = !showColliders;
-            ToggleAllColliders(showColliders);
-            Debug.Log("顯示碰撞框："+showColliders);
-        }
+        // if (Input.GetKeyDown(KeyCode.Y))
+        // {
+        //     showColliders = !showColliders;
+        //     ToggleAllColliders(showColliders);
+        //     Debug.Log("顯示碰撞框："+showColliders);
+        // }
     }
 
     void ToggleAllColliders(bool show)
