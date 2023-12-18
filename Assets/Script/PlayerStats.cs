@@ -15,5 +15,6 @@ namespace PlayerStats {
         public static List<float> startTimeStamps { get; set; } = new List<float>(SceneManager.sceneCountInBuildSettings);
         public static List<float> restartTimeStamps { get; set; } = new List<float>(SceneManager.sceneCountInBuildSettings);
         public static List<float> finishTimeStamps { get; set; } = new List<float>(SceneManager.sceneCountInBuildSettings);
+        public static string scoreStr = "SCORE IS VERY GOOD";
     }
 }

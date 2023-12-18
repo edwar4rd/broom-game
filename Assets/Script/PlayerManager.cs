@@ -56,7 +56,6 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject clockwiseRotateIndicator;
 	public GameObject counterCWRotateIndicator;
 
-	public bool isFinalLevel = false;
 
 	private float lastNotBrokenTime = 0f;
 	private bool broken = false;
@@ -328,11 +327,6 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void restartScene() {
-		if (isFinalLevel && GameObject.Find("Door").GetComponent<DoorManager>().isWin) {
-			Debug.Log("Going back to menu...");
-			SceneManager.LoadScene(0);
-			return;
-		}
 		GameStats.totalRestart++;
 		while (SceneManager.GetActiveScene().buildIndex >= GameStats.levelRestart.Count) {
 			GameStats.levelRestart.Add(0);

@@ -6,7 +6,6 @@ using PlayerStats;
 
 public class DoorManager : MonoBehaviour {
 	private bool touchingDoor = false;
-	public GameObject winningSign;
 	public bool isWin = false;
 	public bool isLastLevel;
 	// Start is called before the first frame update
@@ -50,8 +49,6 @@ public class DoorManager : MonoBehaviour {
 		}
 		GameStats.finishTimeStamps[SceneManager.GetActiveScene().buildIndex] = Time.time;
 
-		if (isLastLevel)
-			Debug.Log("YOU WIN!!!");
 		string winGameDataDump = "Failed " + GameStats.totalFail + " time(s), restarted " + GameStats.totalRestart + " time(s).\n";
 		// Level0 => menu
 		for (int i = 1; i < GameStats.levelFail.Count; i++) {
@@ -66,14 +63,13 @@ public class DoorManager : MonoBehaviour {
 			winGameDataDump += "\tRestart: " + GameStats.restartTimeStamps[i] + "\n";
 			winGameDataDump += "\tFinish:  " + GameStats.finishTimeStamps[i] + "\n";
 		}
+		if (isLastLevel)
+			winGameDataDump += "\nYOU WIN!!!\n";
 		Debug.Log(winGameDataDump);
+		GameStats.scoreStr = winGameDataDump;
 
-		if (!isLastLevel) {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-		}
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		isWin = true;
-		if (winningSign != null)
-			winningSign.SetActive(true);
 
 		Time.timeScale = 0;
 	}

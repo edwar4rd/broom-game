@@ -21,7 +21,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"/home/maatflow/Project/broom-game/Build/20231218_01;/home/maatflow/Project/broom-game/Build/20231205;/home/maatflow/Project/broom-game/Build/20231107_with_levels;/home/maatflow/Project/broom-game/Build/20231107;/home/maatflow/Project/broom-game/Build/20231104_02;/home/maatflow/Project/broom-game/Build/20231104;C:/Users/fe831/行走練習/Build;C:/Users/fe831/行走練習/WebGL Builds;;\"}"
+                "value": "{\"m_Value\":\"/home/maatflow/Project/broom-game/Build/20231218_02;/home/maatflow/Project/broom-game/Build/20231218_01;/home/maatflow/Project/broom-game/Build/20231205;/home/maatflow/Project/broom-game/Build/20231107_with_levels;/home/maatflow/Project/broom-game/Build/20231107;/home/maatflow/Project/broom-game/Build/20231104_02;/home/maatflow/Project/broom-game/Build/20231104;C:/Users/fe831/行走練習/Build;C:/Users/fe831/行走練習/WebGL Builds;\"}"
             }
         ]
     }
