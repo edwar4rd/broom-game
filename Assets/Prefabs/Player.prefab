@@ -128,6 +128,10 @@ MonoBehaviour:
   particleSystem2ForChar: {fileID: 5014860126309979946}
   clockwiseRotateIndicator: {fileID: 8148011959247214551}
   counterCWRotateIndicator: {fileID: 4359667012726317386}
+  audioSource: {fileID: 7578086744805622761}
+  smallJumpAudioSource: {fileID: 8300000, guid: c7448c693684dc955a1af99fa164075f, type: 3}
+  longJumpAudioSource: {fileID: 8300000, guid: d21dbc922144aed9fa867bb17d3adf1e, type: 3}
+  waterZoneAudioSource: {fileID: 8300000, guid: c671f41267dc2f21486d666140201516, type: 3}
 --- !u!50 &2960129012067039952
 Rigidbody2D:
   serializedVersion: 4

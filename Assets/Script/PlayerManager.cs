@@ -55,7 +55,10 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject particleSystem2ForChar;
 	public GameObject clockwiseRotateIndicator;
 	public GameObject counterCWRotateIndicator;
-
+	public AudioSource audioSource;
+	public AudioClip smallJumpAudioSource;
+	public AudioClip longJumpAudioSource;
+	public AudioClip waterZoneAudioSource;
 
 	private float lastNotBrokenTime = 0f;
 	private bool broken = false;
@@ -304,6 +307,11 @@ public class PlayerManager : MonoBehaviour {
 			if (alternativeJumpTest) {
 				float jumpAngle = broomRigidBody.rotation / 180f * Mathf.PI + Mathf.PI / 2;
 				rb2d.AddForce(new Vector2(Mathf.Cos(jumpAngle), Mathf.Sin(jumpAngle)) * jumpForce);
+				if(Mathf.Sin(jumpAngle) > 0.7) {
+					audioSource.PlayOneShot(longJumpAudioSource);
+				} else {
+					audioSource.PlayOneShot(smallJumpAudioSource);
+				}
 			}
 			else {
 				rb2d.AddForce(Vector2.up * jumpForce);
@@ -354,6 +362,7 @@ public class PlayerManager : MonoBehaviour {
 			// enterWaterFrameCount = 0;
 		}
 		this.GetComponent<SpriteRenderer>().sprite = waterZoneShoeSprite;
+		audioSource.PlayOneShot(waterZoneAudioSource);
 	}
 	public void NolongerTouchedByWater() {
 		// Debug.Log("yeah super dry");
