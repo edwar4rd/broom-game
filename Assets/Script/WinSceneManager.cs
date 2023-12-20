@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
+using TMPro;
 
 public class WinSceneManager : MonoBehaviour {
     [DllImport("__Internal")]
     private static extern void CopyToClipboard(string textToCopy);
 
     public InputActionAsset actions;
+    public TMP_Text info_text;
     private InputActionMap winActionMap;
 
     public List<ParticleSystem> particleSystems;
@@ -24,6 +26,9 @@ public class WinSceneManager : MonoBehaviour {
         winActionMap["CopyScore"].performed += CopyScore;
         winActionMap["Celebrate"].performed += Celebrate;
         winActionMap.Enable();
+        Debug.Log(GameStats.totalTime);
+        Debug.Log(GameStats.totalRestart);
+        info_text.text = "Total Time: " + GameStats.totalTime + "s\nTotal Restart: " + GameStats.totalRestart + " time(s)";
     }
 
     public void BackToMenu(InputAction.CallbackContext context) {

@@ -98,12 +98,12 @@ public class PlayerManager : MonoBehaviour {
 		UpdateInput();
 		checkRestart();
 		Jump();
-		UpdateInputRotation();
 		particles();
 		indicators();
 	}
 	void FixedUpdate() {
 		Movement();
+		UpdateInputRotation();
 		checkDeath();
 	}
 
@@ -224,14 +224,14 @@ public class PlayerManager : MonoBehaviour {
 
 	//讓傾斜的掃帚回正
 	private void UpdateInputRotation() {
-		broomRigidBody.AddTorque(-rotationalAxisInput * torquePower);
+		broomRigidBody.AddTorque(-rotationalAxisInput * torquePower * 2.4f);
 
 		if (autorotateButton) {
 			if (broomRigidBody.rotation < 0f) {
-				broomRigidBody.AddTorque(torquePower);
+				broomRigidBody.AddTorque(torquePower * 2.4f);
 			}
 			else if (broomRigidBody.rotation > 0f) {
-				broomRigidBody.AddTorque(-1 * torquePower);
+				broomRigidBody.AddTorque(-1 * torquePower * 2.4f);
 			}
 		}
 	}

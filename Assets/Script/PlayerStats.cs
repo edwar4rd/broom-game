@@ -9,6 +9,7 @@ namespace PlayerStats {
     public static class GameStats {
         public static uint totalRestart { get; set; } = 0;
         public static uint totalFail { get; set; } = 0;
+        public static float totalTime = 0;
         public static List<uint> levelRestart { get; set; } = new List<uint>(SceneManager.sceneCountInBuildSettings);
         public static List<uint> levelFail { get; set; } = new List<uint>(SceneManager.sceneCountInBuildSettings);
 

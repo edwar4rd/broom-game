@@ -57,14 +57,19 @@ public class DoorManager : MonoBehaviour {
 		for (int i = 1; i < GameStats.levelRestart.Count; i++) {
 			winGameDataDump += "Restarted Level " + i + " " + GameStats.levelRestart[i] + " time(s) \n";
 		}
+		GameStats.totalTime = 0;
 		for (int i = 1; i < GameStats.startTimeStamps.Count; i++) {
 			winGameDataDump += "Level " + i + ":\n";
 			winGameDataDump += "\tStart:   " + GameStats.startTimeStamps[i] + "\n";
 			winGameDataDump += "\tRestart: " + GameStats.restartTimeStamps[i] + "\n";
 			winGameDataDump += "\tFinish:  " + GameStats.finishTimeStamps[i] + "\n";
+			GameStats.totalTime += GameStats.finishTimeStamps[i] - GameStats.startTimeStamps[i];
 		}
-		if (isLastLevel)
+
+		if (isLastLevel) {
 			winGameDataDump += "\nYOU WIN!!!\n";
+			winGameDataDump += "Total play time: " + GameStats.totalTime;
+		}
 		Debug.Log(winGameDataDump);
 		GameStats.scoreStr = winGameDataDump;
 
